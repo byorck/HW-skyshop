@@ -1,3 +1,4 @@
+
 package org.skypro.skyshop.model.controller;
 
 import org.skypro.skyshop.model.article.Article;
@@ -18,10 +19,11 @@ import java.util.UUID;
 public class ShopController {
 
     private final StorageService storageService;
-    private SearchService searchService;
+    private final SearchService searchService;
 
-    public ShopController(StorageService storageService) {
+    public ShopController(StorageService storageService, SearchService searchService) {
         this.storageService = storageService;
+        this.searchService = searchService;
     }
 
     @GetMapping("/products")

@@ -34,20 +34,20 @@ public class StorageService {
         return articleMap;
     }
 
-private void addProduct() {
-    SimpleProduct apple = new SimpleProduct("Яблоки", 100, UUID.randomUUID());
-    FixPriceProduct razor = new FixPriceProduct("Бритва", UUID.randomUUID());
-    SimpleProduct cookie = new SimpleProduct("Печенье", 200, UUID.randomUUID());
-    DiscountedProduct meat = new DiscountedProduct("Мясо", 777, 25, UUID.randomUUID());
-    SimpleProduct milk = new SimpleProduct("Молоко", 150, UUID.randomUUID());
-    SimpleProduct salt = new SimpleProduct("Соль", 50, UUID.randomUUID());
-    productMap.put(apple.getId(), apple);
-    productMap.put(razor.getId(), razor);
-    productMap.put(cookie.getId(), cookie);
-    productMap.put(meat.getId(), meat);
-    productMap.put(milk.getId(), milk);
-    productMap.put(salt.getId(), salt);
-}
+    private void addProduct() {
+        SimpleProduct apple = new SimpleProduct("Яблоки", 100, UUID.randomUUID());
+        FixPriceProduct razor = new FixPriceProduct("Бритва", UUID.randomUUID());
+        SimpleProduct cookie = new SimpleProduct("Печенье", 200, UUID.randomUUID());
+        DiscountedProduct meat = new DiscountedProduct("Мясо", 777, 25, UUID.randomUUID());
+        SimpleProduct milk = new SimpleProduct("Молоко", 150, UUID.randomUUID());
+        SimpleProduct salt = new SimpleProduct("Соль", 50, UUID.randomUUID());
+        productMap.put(apple.getId(), apple);
+        productMap.put(razor.getId(), razor);
+        productMap.put(cookie.getId(), cookie);
+        productMap.put(meat.getId(), meat);
+        productMap.put(milk.getId(), milk);
+        productMap.put(salt.getId(), salt);
+    }
     private void addArticle() {
         Article appleAbout = new Article("Яблоки", "Свежие яблоки", UUID.randomUUID());
         Article razorAbout = new Article("Бритва", "Острая бритва", UUID.randomUUID());

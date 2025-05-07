@@ -13,6 +13,3 @@ public interface Searchable {
     }
     UUID getId();
 }
-
-
-
