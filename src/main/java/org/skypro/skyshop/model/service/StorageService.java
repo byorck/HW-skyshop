@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -48,6 +49,7 @@ public class StorageService {
         productMap.put(milk.getId(), milk);
         productMap.put(salt.getId(), salt);
     }
+
     private void addArticle() {
         Article appleAbout = new Article("Яблоки", "Свежие яблоки", UUID.randomUUID());
         Article razorAbout = new Article("Бритва", "Острая бритва", UUID.randomUUID());
@@ -69,5 +71,9 @@ public class StorageService {
                         articleMap.values().stream()
                 )
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Product> getProductById(UUID id) {
+        return Optional.ofNullable(productMap.get(id));
     }
 }
