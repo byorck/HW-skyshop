@@ -1,12 +1,11 @@
 package org.skypro.skyshop.model.service;
 
 import org.skypro.skyshop.model.search.SearchResult;
-import org.skypro.skyshop.model.search.Searchable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Service
 public class SearchService {
