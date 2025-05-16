@@ -1,4 +1,3 @@
-
 package org.skypro.skyshop.model.controller;
 
 import org.skypro.skyshop.model.article.Article;
