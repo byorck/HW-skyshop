@@ -26,7 +26,7 @@ public class BasketService {
 
     public void addProduct(UUID id) {
         if (storage.getProductById(id).isEmpty()) {
-            throw new NoSuchProductException("Продукт не найден");
+            throw new NoSuchProductException(id);
         }
         basket.addProduct(id);
     }
@@ -41,7 +41,7 @@ public class BasketService {
             int quantity = entry.getValue();
 
             Product product = storage.getProductById(productId)
-                    .orElseThrow(() -> new NoSuchProductException("Продукт не найден"));
+                    .orElseThrow(() -> new NoSuchProductException(productId));
 
             items.add(new BasketItem(product, quantity));
             total += product.getPrice() * quantity;

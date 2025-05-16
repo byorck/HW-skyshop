@@ -1,7 +1,17 @@
 package org.skypro.skyshop.model.exception;
 
+import java.util.UUID;
+
 public class NoSuchProductException extends RuntimeException {
-    public NoSuchProductException(String message) {
-        super(message);
+    private final UUID id;
+
+
+    public NoSuchProductException(UUID id) {
+        super("Товар не найден: " + id);
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

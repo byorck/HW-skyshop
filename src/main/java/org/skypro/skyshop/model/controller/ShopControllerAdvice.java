@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ShopControllerAdvice {
     @ExceptionHandler(NoSuchProductException.class)
     public ResponseEntity<ShopError> handleNoSuchProductException(NoSuchProductException e) {
-        ShopError error = new ShopError("NOT_FOUND", "Товар с указанным ID не найден");
+        String message = "Товар с указанным ID не найден: " + e.getId();
+        ShopError error = new ShopError("NOT_FOUND", message);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }
