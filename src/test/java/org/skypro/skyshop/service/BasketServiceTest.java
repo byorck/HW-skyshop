@@ -1,18 +1,17 @@
-package org.skypro.skyshop;
+package org.skypro.skyshop.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.skypro.skyshop.model.basket.BasketItem;
-import org.skypro.skyshop.model.basket.ProductBasket;
-import org.skypro.skyshop.model.basket.UserBasket;
-import org.skypro.skyshop.model.exception.NoSuchProductException;
-import org.skypro.skyshop.model.product.Product;
-import org.skypro.skyshop.model.service.BasketService;
-import org.skypro.skyshop.model.service.StorageService;
+import org.skypro.skyshop.basket.BasketItem;
+import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.basket.UserBasket;
+import org.skypro.skyshop.exception.NoSuchProductException;
+import org.skypro.skyshop.product.Product;
 
 import java.util.Collections;
 import java.util.Map;
@@ -44,8 +43,8 @@ public class BasketServiceTest {
         nonExistingProductId = UUID.randomUUID();
     }
 
-    //Добавление несуществующего товара в корзину приводит к выбросу исключения
     @Test
+    @DisplayName("Добавление несуществующего товара в корзину приводит к выбросу исключения")
     void addProduct_NonExistingProduct_ThrowsNoSuchProductException() {
         when(storageService.getProductById(nonExistingProductId)).thenReturn(Optional.empty());
 
@@ -54,8 +53,8 @@ public class BasketServiceTest {
         verify(productBasket, never()).addProduct(any());
     }
 
-    //Добавление существующего товара вызывает метод addProduct у мока ProductBasket
     @Test
+    @DisplayName("Добавление существующего товара вызывает метод addProduct у мока ProductBasket")
     void addProduct_ExistingProduct_CallsAddProductOnProductBasket() {
         when(storageService.getProductById(existingProductId)).thenReturn(Optional.of(existingProduct));
 
@@ -64,9 +63,10 @@ public class BasketServiceTest {
         verify(productBasket, times(1)).addProduct(existingProductId);
     }
 
-    //Метод getUserBacket возвращает пустую корзину, если ProductBasket пуст
     @Test
+    @DisplayName("Метод getUserBacket возвращает пустую корзину, если ProductBasket пуст")
     void getUserBasket_EmptyBasket_ReturnsEmptyUserBasket() {
+
         when(productBasket.getItems()).thenReturn(Collections.emptyMap());
 
         UserBasket userBasket = basketService.getUserBasket();
@@ -74,26 +74,39 @@ public class BasketServiceTest {
         assertNotNull(userBasket);
         assertTrue(userBasket.getItems().isEmpty());
         assertEquals(0, userBasket.getTotal());
+
+        verify(productBasket, times(1)).getItems();
+        verifyNoInteractions(storageService);
     }
-    // Метод getUserBasket возвращает подходящую корзину, если в ProductBasket есть товары.
+
     @Test
+    @DisplayName("Метод getUserBasket возвращает подходящую корзину, если в ProductBasket есть товары")
     void getUserBasket_NonEmptyBasket_ReturnsCorrectUserBasket() {
-        Map<UUID, Integer> itemsMap = Collections.singletonMap(existingProductId, 3);
+        //given
+        final int quantity = 3;
+        final int pricePerProduct = 100;
+        final int expectedTotal = quantity * pricePerProduct;
+        Map<UUID, Integer> itemsMap = Collections.singletonMap(existingProductId, quantity);
+
+        //when
         when(productBasket.getItems()).thenReturn(itemsMap);
         when(storageService.getProductById(existingProductId)).thenReturn(Optional.of(existingProduct));
-        when(existingProduct.getPrice()).thenReturn(100);
+        when(existingProduct.getPrice()).thenReturn(pricePerProduct);
 
         UserBasket userBasket = basketService.getUserBasket();
 
+        //then
         assertNotNull(userBasket);
-
         assertEquals(1, userBasket.getItems().size());
-
-        assertEquals(300, userBasket.getTotal());
+        assertEquals(expectedTotal, userBasket.getTotal());
 
         BasketItem basketItem = userBasket.getItems().get(0);
         assertEquals(existingProduct, basketItem.getProduct());
-        assertEquals(3, basketItem.getQuantity());
+        assertEquals(quantity, basketItem.getQuantity());
+
+        //verify
+        verify(productBasket, times(1)).getItems();
+        verify(storageService, times(1)).getProductById(existingProductId);
     }
 }
 
