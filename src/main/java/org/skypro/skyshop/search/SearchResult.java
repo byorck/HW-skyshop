@@ -1,4 +1,4 @@
-package org.skypro.skyshop.model.search;
+package org.skypro.skyshop.search;
 
 public class SearchResult {
     public final String id;
