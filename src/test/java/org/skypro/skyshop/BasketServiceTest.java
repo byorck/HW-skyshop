@@ -78,7 +78,6 @@ public class BasketServiceTest {
     // Метод getUserBasket возвращает подходящую корзину, если в ProductBasket есть товары.
     @Test
     void getUserBasket_NonEmptyBasket_ReturnsCorrectUserBasket() {
-        // Мокируем корзину с одним товаром
         Map<UUID, Integer> itemsMap = Collections.singletonMap(existingProductId, 3);
         when(productBasket.getItems()).thenReturn(itemsMap);
         when(storageService.getProductById(existingProductId)).thenReturn(Optional.of(existingProduct));
